@@ -9,18 +9,9 @@ const meta = {
     layout: "centered",
   },
   tags: ["autodocs"],
-  //   argTypes: {
-  //     backgroundColor: { control: "color" },
-  //   },
-//   args: { onClick: fn() },
 } satisfies Meta<typeof Page>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Primary: Story = {
-  //   args: {
-  //     primary: true,
-  //     label: "Button",
-  //   },
-};
+export const Primary: Story = {};
