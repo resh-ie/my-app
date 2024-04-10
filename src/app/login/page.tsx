@@ -36,7 +36,7 @@ export default function Page() {
     setIsOpen(false);
   };
   return (
-    <Modal isOpen={true} onClose={handleClose}>
+    <Modal isOpen={isOpen} onClose={handleClose}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Login</ModalHeader>
@@ -50,7 +50,7 @@ export default function Page() {
           </Stack>
         </ModalBody>
         <ModalFooter>
-          <Button colorScheme="teal" size="lg">
+          <Button colorScheme="teal" size="lg" onClick={handleClose}>
             Login
           </Button>
         </ModalFooter>
