@@ -10,6 +10,7 @@ const query = gql`
   query {
     characters {
       results {
+        id
         name
         image
         status
@@ -18,21 +19,18 @@ const query = gql`
   }
 `;
 
-export default function PollPage() {
+export default function Information() {
   const { data } = useSuspenseQuery(query);
 
   return (
     <div>
       {data?.characters?.results?.map((character: any) => (
-        // <div key={character.name}>
-        //   <img src={character.image} alt={character.name} />
-        //   <p>{character.name}</p>
-        // </div>
         <CharacterCard
           key={character.name}
           name={character.name}
           url={character.image}
           status={character.status}
+          id={character.id}
         />
       ))}
     </div>

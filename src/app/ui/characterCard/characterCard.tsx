@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import {
   Card,
   CardBody,
@@ -11,18 +12,27 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { FC } from "react";
+import Link from "next/link";
 
 type CharacterCardProps = {
   name: string;
   url: string;
   status: "Alive" | "Dead" | "unknown";
+  id: string;
 };
 
 export const CharacterCard: FC<CharacterCardProps> = ({
   name,
   url,
   status,
+  id,
 }) => {
+  // const router = useRouter();
+
+  // const handleViewDetails = () => {
+  //   router.push(`/character/${id}`); // Assuming your character details page route is /character/[id]
+  // };
+
   return (
     <Card maxW="sm">
       <CardBody>
@@ -41,9 +51,10 @@ export const CharacterCard: FC<CharacterCardProps> = ({
       <Divider />
       <CardFooter>
         <ButtonGroup spacing="2">
-          <Button variant="solid" colorScheme="blue">
+          {/* <Button variant="solid" colorScheme="blue">
             View details
-          </Button>
+          </Button> */}
+          <Link href={`/character/${name}`}>View</Link>
         </ButtonGroup>
       </CardFooter>
     </Card>
