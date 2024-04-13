@@ -1,6 +1,7 @@
 "use client";
 import { Inter } from "next/font/google";
 import { Providers } from "./providers/providers";
+import { ApolloWrapper } from "./lib/apollo-wrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -12,7 +13,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Providers>{children}</Providers>
+        <ApolloWrapper>
+          <Providers>{children}</Providers>
+        </ApolloWrapper>
       </body>
     </html>
   );
