@@ -10,25 +10,31 @@ import {
   ButtonGroup,
   Button,
 } from "@chakra-ui/react";
+import { FC } from "react";
 
-export const CharacterCard = () => {
+type CharacterCardProps = {
+  name: string;
+  url: string;
+  status: "Alive" | "Dead" | "unknown";
+};
+
+export const CharacterCard: FC<CharacterCardProps> = ({
+  name,
+  url,
+  status,
+}) => {
   return (
     <Card maxW="sm">
       <CardBody>
         <Image
-          src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+          src={url}
           alt="Green double couch with wooden legs"
           borderRadius="lg"
         />
         <Stack mt="6" spacing="3">
-          <Heading size="md">Living room Sofa</Heading>
-          <Text>
-            This sofa is perfect for modern tropical spaces, baroque inspired
-            spaces, earthy toned spaces and for people who love a chic design
-            with a sprinkle of vintage design.
-          </Text>
+          <Heading size="md">{name}</Heading>
           <Text color="blue.600" fontSize="2xl">
-            $450
+            {status}
           </Text>
         </Stack>
       </CardBody>
@@ -36,10 +42,7 @@ export const CharacterCard = () => {
       <CardFooter>
         <ButtonGroup spacing="2">
           <Button variant="solid" colorScheme="blue">
-            Buy now
-          </Button>
-          <Button variant="ghost" colorScheme="blue">
-            Add to cart
+            View details
           </Button>
         </ButtonGroup>
       </CardFooter>
