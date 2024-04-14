@@ -2,7 +2,7 @@
 
 import { createContext, ReactNode, useRef, useContext } from "react";
 import { StoreApi, useStore } from "zustand";
-import { UserStore, createUserStore, initUserStore } from "@/app/stores/user";
+import { UserStore, createUserStore, initUserStore } from "@/stores/user";
 
 export const UserStoreContext = createContext<StoreApi<UserStore> | null>(null);
 
