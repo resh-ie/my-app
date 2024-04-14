@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import {
   Card,
   CardBody,
@@ -27,12 +26,6 @@ export const CharacterCard: FC<CharacterCardProps> = ({
   status,
   id,
 }) => {
-  // const router = useRouter();
-
-  // const handleViewDetails = () => {
-  //   router.push(`/character/${id}`); // Assuming your character details page route is /character/[id]
-  // };
-
   return (
     <Card maxW="sm">
       <CardBody>
@@ -51,10 +44,10 @@ export const CharacterCard: FC<CharacterCardProps> = ({
       <Divider />
       <CardFooter>
         <ButtonGroup spacing="2">
-          {/* <Button variant="solid" colorScheme="blue">
-            View details
-          </Button> */}
-          <Link href={`/character/${name}`}>View</Link>
+          {/* TODO: use the button and router push instead of Link */}
+          <Link passHref href={`/character/${name}`}>
+            View {name}
+          </Link>
         </ButtonGroup>
       </CardFooter>
     </Card>
