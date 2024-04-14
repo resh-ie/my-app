@@ -32,7 +32,7 @@ export default function Home() {
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
-    router.push(`/?page=${page}`, undefined, { shallow: true });
+    router.push(`/?page=${page}`);
   };
 
   const paginatedCharacters = characters.slice(
@@ -42,8 +42,8 @@ export default function Home() {
 
   return (
     <div>
-      {/* Pagination Controls */}
       <Suspense fallback={<div>Loading...</div>}></Suspense>
+      {/* Pagination Controls */}
       <Stack direction="row" spacing={4} justify="center" mt={4} mb={2}>
         {Array.from({ length: totalPages }, (_, i) => (
           <Button
@@ -55,6 +55,9 @@ export default function Home() {
           </Button>
         ))}
       </Stack>
+      <Text textAlign="center" mb={4}>
+        Page {currentPage} of {totalPages}
+      </Text>
       {/* Characters */}
       {paginatedCharacters.map((character) => (
         <CharacterCard
