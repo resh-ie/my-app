@@ -14,10 +14,15 @@ import { loginSchema } from "@/app/schema/login";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 
 import { useUserStore } from "../../providers/store/user-store-provider";
+import { FC } from "react";
 
 type FormData = z.infer<typeof loginSchema>;
 
-export const LoginForm = ({}) => {
+type LoginFormProps = {
+  handleOnClose: () => void;
+};
+
+export const LoginForm: FC<LoginFormProps> = ({ handleOnClose }) => {
   // User Store State
   const { name, updateName, jobTitle, updateJobTitle } = useUserStore(
     (state) => state
@@ -41,6 +46,7 @@ export const LoginForm = ({}) => {
   const onSubmit: SubmitHandler<FormData> = (values) => {
     updateName(values.name);
     updateJobTitle(values.jobTitle);
+    handleOnClose();
   };
 
   return (

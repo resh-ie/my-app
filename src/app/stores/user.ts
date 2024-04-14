@@ -3,8 +3,8 @@ import { persist } from "zustand/middleware";
 // TODO: create a type folder
 
 export type UserState = {
-  name: string | undefined;
-  jobTitle: string | undefined;
+  name: string;
+  jobTitle: string;
 };
 
 export type UserActions = {
@@ -16,8 +16,8 @@ export type UserStore = UserState & UserActions;
 
 export const initUserStore = (): UserState => {
   return {
-    name: undefined,
-    jobTitle: undefined,
+    name: "",
+    jobTitle: "",
   };
 };
 

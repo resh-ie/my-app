@@ -89,7 +89,6 @@ export default function Home() {
     setIsModalOpen(false);
   };
 
-
   return (
     <div>
       {/* Login Form */}
@@ -99,19 +98,8 @@ export default function Home() {
           <ModalHeader>Login</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <LoginForm />
+            <LoginForm handleOnClose={handleModalClose} />
           </ModalBody>
-          {/* <ModalFooter>
-            <Button
-              colorScheme="teal"
-              size="lg"
-              type="submit"
-              isLoading={isSubmitting}
-              // onClick={handleSubmit(onSubmit)}
-            >
-              Login
-            </Button>
-          </ModalFooter> */}
         </ModalContent>
       </Modal>
       {/* Pagination Controls */}
