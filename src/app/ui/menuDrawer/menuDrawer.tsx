@@ -7,7 +7,6 @@ import {
   DrawerContent,
   DrawerBody,
   DrawerCloseButton,
-  DrawerFooter,
   DrawerHeader,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -35,13 +34,6 @@ export const MenuDrawer = () => {
               </Box>
             </Stack>
           </DrawerBody>
-
-          {/* <DrawerFooter borderTopWidth="1px">
-            <Button variant="outline" mr={3} onClick={onClose}>
-              Cancel
-            </Button>
-            <Button colorScheme="blue">Submit</Button>
-          </DrawerFooter> */}
         </DrawerContent>
       </Drawer>
     </>
