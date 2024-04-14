@@ -25,7 +25,6 @@ const CharacterPage = () => {
   const { data, error } = useSuspenseQuery(GET_CHARACTER_BY_ID, {
     variables: { id },
   });
-  console.log("data", data);
 
   if (error) return <p>Error: {error.message}</p>;
 

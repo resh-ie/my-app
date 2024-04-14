@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { loginSchema } from "./schema/login";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   Stack,
   Text,
@@ -12,11 +11,8 @@ import {
   ModalContent,
   ModalHeader,
   ModalOverlay,
-  ModalFooter,
 } from "@chakra-ui/react";
-import { z } from "zod";
 import { gql } from "@apollo/client";
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import { CharacterCard } from "./ui/characterCard/characterCard";
 import { useUserStore } from "./providers/store/user-store-provider";
@@ -39,15 +35,13 @@ const query = gql`
   }
 `;
 
-type FormData = z.infer<typeof loginSchema>;
-
 export default function Home() {
   const router = useRouter();
 
   // Pagination State
   const { currentPage, setCurrentPage } = usePaginationStore((state) => state);
 
-  const handlePageChange = (page) => {
+  const handlePageChange = (page: number) => {
     setCurrentPage(page);
     router.push(`/?page=${page}`);
   };
@@ -57,7 +51,6 @@ export default function Home() {
 
   const characters = data?.characters?.results || [];
 
-  const pathname = usePathname();
   const searchParams = useSearchParams();
 
   const pageNumber = searchParams.get("page");
@@ -70,9 +63,8 @@ export default function Home() {
   );
 
   // User Store State
-  const { name, updateName, jobTitle, updateJobTitle } = useUserStore(
-    (state) => state
-  );
+  // TODO: change updateName to setName
+  const { name, jobTitle } = useUserStore((state) => state);
 
   const showModalIfNameOrJobTitleIsMissing = !name || !jobTitle;
 
@@ -85,18 +77,13 @@ export default function Home() {
     setIsModalOpen(false);
   };
 
-  // Only show the modal if the userName or jobTitle is missing
-  useEffect(() => {
-    if (showModalIfNameOrJobTitleIsMissing) {
-      setIsModalOpen(true);
-    }
-  }, [showModalIfNameOrJobTitleIsMissing]);
-
   // Check the page query param and set the current page
   useEffect(() => {
-    const page = Number(pageNumber) ?? 1;
+    const page = Number(pageNumber) || 1;
     setCurrentPage(page);
   }, [pageNumber, setCurrentPage]);
+
+  console.log({ currentPage });
 
   return (
     <div style={{ padding: "20px" }}>
