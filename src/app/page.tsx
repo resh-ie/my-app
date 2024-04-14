@@ -96,7 +96,6 @@ export default function Home() {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Login</ModalHeader>
-          <ModalCloseButton />
           <ModalBody>
             <LoginForm handleOnClose={handleModalClose} />
           </ModalBody>
