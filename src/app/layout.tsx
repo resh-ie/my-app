@@ -1,6 +1,6 @@
 "use client";
 import { Inter } from "next/font/google";
-import { Providers } from "./providers/providers";
+import { Providers } from "./providers/chakra/providers";
 import { ApolloWrapper } from "./lib/apollo-wrapper";
 import { CounterStoreProvider } from "./providers/store/counterStoreProvider";
 const inter = Inter({ subsets: ["latin"] });
