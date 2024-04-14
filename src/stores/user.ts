@@ -1,6 +1,6 @@
+"use client";
 import { createStore } from "zustand/vanilla";
 import { persist } from "zustand/middleware";
-// TODO: create a type folder
 
 export type UserState = {
   name: string;

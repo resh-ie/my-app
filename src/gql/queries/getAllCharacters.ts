@@ -13,7 +13,7 @@ export const GET_ALL_CHARACTERS = gql`
   }
 `;
 
-interface Character {
+export interface Character {
   id: string;
   name: string;
   image: string;

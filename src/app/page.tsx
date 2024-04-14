@@ -1,5 +1,5 @@
 "use client";
-import { Suspense } from "react";
+import { Suspense, FC } from "react";
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
@@ -21,11 +21,18 @@ import { MenuDrawer } from "../ui/menuDrawer/menuDrawer";
 import {
   CharactersQueryResponse,
   GET_ALL_CHARACTERS,
+  Character,
 } from "@/gql/queries/getAllCharacters";
+
+interface PaginationControlsProps {
+  currentPage: number;
+  totalPages: number;
+  handlePageChange: (page: number) => void;
+}
 
 const CHARACTERS_PER_PAGE = 10; // Number of characters per page
 
-export default function Home() {
+const Home: FC = () => {
   const router = useRouter();
 
   // Pagination State
@@ -35,6 +42,7 @@ export default function Home() {
     setCurrentPage(page);
     router.push(`/?page=${page}`);
   };
+
   const { data } = useSuspenseQuery<CharactersQueryResponse>(
     GET_ALL_CHARACTERS,
     {
@@ -56,7 +64,6 @@ export default function Home() {
   );
 
   // User Store State
-  // TODO: change updateName to setName
   const { name, jobTitle } = useUserStore((state) => state);
 
   const showModalIfNameOrJobTitleIsMissing = !name || !jobTitle;
@@ -76,53 +83,82 @@ export default function Home() {
     setCurrentPage(page);
   }, [pageNumber, setCurrentPage]);
 
-  console.log({ currentPage });
-
   return (
     <div style={{ padding: "20px" }}>
-      <Suspense>
-        {/* Login Form Modal*/}
-        <Modal isOpen={isModalOpen} onClose={() => {}}>
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Login</ModalHeader>
-            <ModalBody>
-              <LoginForm handleOnClose={handleModalClose} />
-            </ModalBody>
-          </ModalContent>
-        </Modal>
-        {/* Menu Draw */}
+      <Suspense fallback={<div>Loading...</div>}>
+        <LoginFormModal isModalOpen={isModalOpen} onClose={handleModalClose} />
         <MenuDrawer />
-
-        {/* Pagination Controls */}
-        <Stack direction="row" spacing={4} justify="center" mt={4} mb={2}>
-          {Array.from({ length: totalPages }, (_, i) => (
-            <Button
-              key={i + 1}
-              onClick={() => handlePageChange(i + 1)}
-              colorScheme={currentPage === i + 1 ? "teal" : "gray"}
-            >
-              {i + 1}
-            </Button>
-          ))}
-        </Stack>
+        <PaginationControls
+          currentPage={currentPage}
+          totalPages={totalPages}
+          handlePageChange={handlePageChange}
+        />
         <Text textAlign="center" mb={4}>
           Page {currentPage} of {totalPages}
         </Text>
-
-        {/* Characters */}
-        <Stack direction="column" spacing={4} alignItems="center">
-          {paginatedCharacters.map((character) => (
-            <CharacterCard
-              key={character.id}
-              name={character.name}
-              url={character.image}
-              status={character.status}
-              id={character.id}
-            />
-          ))}
-        </Stack>
+        <Characters paginatedCharacters={paginatedCharacters} />
       </Suspense>
     </div>
   );
+};
+
+interface LoginFormModalProps {
+  isModalOpen: boolean;
+  onClose: () => void;
 }
+
+const LoginFormModal: FC<LoginFormModalProps> = ({ isModalOpen, onClose }) => {
+  return (
+    <Modal isOpen={isModalOpen} onClose={onClose}>
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>Login</ModalHeader>
+        <ModalBody>
+          <LoginForm handleOnClose={onClose} />
+        </ModalBody>
+      </ModalContent>
+    </Modal>
+  );
+};
+
+const PaginationControls: FC<PaginationControlsProps> = ({
+  currentPage,
+  totalPages,
+  handlePageChange,
+}) => {
+  return (
+    <Stack direction="row" spacing={4} justify="center" mt={4} mb={2}>
+      {Array.from({ length: totalPages }, (_, i) => (
+        <Button
+          key={i + 1}
+          onClick={() => handlePageChange(i + 1)}
+          colorScheme={currentPage === i + 1 ? "teal" : "gray"}
+        >
+          {i + 1}
+        </Button>
+      ))}
+    </Stack>
+  );
+};
+
+interface CharactersProps {
+  paginatedCharacters: Character[];
+}
+
+const Characters: FC<CharactersProps> = ({ paginatedCharacters }) => {
+  return (
+    <Stack direction="column" spacing={4} alignItems="center">
+      {paginatedCharacters.map((character) => (
+        <CharacterCard
+          key={character.id}
+          name={character.name}
+          url={character.image}
+          status={character.status}
+          id={character.id}
+        />
+      ))}
+    </Stack>
+  );
+};
+
+export default Home;

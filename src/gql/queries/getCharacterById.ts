@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-interface Character {
+export interface Character {
   id: string;
   name: string;
   status: string;
