@@ -3,13 +3,13 @@ import { gql } from "@apollo/client";
 import { usePathname } from "next/navigation";
 import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import { Box, Heading, Text, Image, Divider, Stack } from "@chakra-ui/react";
-import { GET_CHARACTER_BY_ID } from "@/gql/queries/getCharacterById";
+import { GET_CHARACTER_BY_ID, GetCharacterByIdResponse } from "@/gql/queries/getCharacterById";
 
 const CharacterPage = () => {
   const pathname = usePathname();
   const id = pathname.split("/").pop();
 
-  const { data, error } = useSuspenseQuery(GET_CHARACTER_BY_ID, {
+  const { data, error } = useSuspenseQuery<GetCharacterByIdResponse>(GET_CHARACTER_BY_ID, {
     variables: { id },
   });
 
