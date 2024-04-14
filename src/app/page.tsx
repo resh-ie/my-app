@@ -19,21 +19,12 @@ import { useUserStore } from "./providers/store/user-store-provider";
 import { usePaginationStore } from "./providers/store/pagination-store-provider";
 import { LoginForm } from "../ui/loginForm/loginForm";
 import { MenuDrawer } from "../ui/menuDrawer/menuDrawer";
+import {
+  CharactersQueryResponse,
+  GET_ALL_CHARACTERS,
+} from "@/gql/queries/getAllCharacters";
 
 const CHARACTERS_PER_PAGE = 10; // Number of characters per page
-
-const query = gql`
-  query Characters($page: Int!) {
-    characters(page: $page) {
-      results {
-        id
-        name
-        image
-        status
-      }
-    }
-  }
-`;
 
 export default function Home() {
   const router = useRouter();
@@ -45,9 +36,12 @@ export default function Home() {
     setCurrentPage(page);
     router.push(`/?page=${page}`);
   };
-  const { data } = useSuspenseQuery(query, {
-    variables: { page: currentPage },
-  });
+  const { data } = useSuspenseQuery<CharactersQueryResponse>(
+    GET_ALL_CHARACTERS,
+    {
+      variables: { page: currentPage },
+    }
+  );
 
   const characters = data?.characters?.results || [];
 
