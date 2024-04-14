@@ -14,11 +14,11 @@ import {
 } from "@chakra-ui/react";
 import { gql } from "@apollo/client";
 import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
-import { CharacterCard } from "./ui/characterCard/characterCard";
+import { CharacterCard } from "../ui/characterCard/characterCard";
 import { useUserStore } from "./providers/store/user-store-provider";
 import { usePaginationStore } from "./providers/store/pagination-store-provider";
-import { LoginForm } from "./ui/loginForm/loginForm";
-import { MenuDrawer } from "./ui/menuDrawer/menuDrawer";
+import { LoginForm } from "../ui/loginForm/loginForm";
+import { MenuDrawer } from "../ui/menuDrawer/menuDrawer";
 
 const CHARACTERS_PER_PAGE = 10; // Number of characters per page
 
