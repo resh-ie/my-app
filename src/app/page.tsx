@@ -1,31 +1,11 @@
 "use client";
-import { useRouter } from "next/navigation";
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  Stack,
-  Input,
-  Text,
-  Button,
-  useDisclosure,
-} from "@chakra-ui/react";
 import { useState } from "react";
-
-export const dynamic = "force-dynamic";
-
+import { Stack, Text, Button } from "@chakra-ui/react";
 import { gql } from "@apollo/client";
 import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import { CharacterCard } from "./ui/characterCard/characterCard";
 
-type User = {
-  name: string;
-  jobTitle: string;
-};
+const CHARACTERS_PER_PAGE = 10; // Number of characters per page
 
 const query = gql`
   query {
@@ -41,42 +21,38 @@ const query = gql`
 `;
 
 export default function Home() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleLogin = () => {
-    closeModal();
-  };
+  const [currentPage, setCurrentPage] = useState(1);
   const { data } = useSuspenseQuery(query);
+  const characters = data?.characters?.results || [];
+  const totalPages = Math.ceil(characters.length / CHARACTERS_PER_PAGE);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
+  const paginatedCharacters = characters.slice(
+    (currentPage - 1) * CHARACTERS_PER_PAGE,
+    currentPage * CHARACTERS_PER_PAGE
+  );
+
   return (
     <div>
-      <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Login</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Stack spacing={3}>
-              <Text>Please enter your name:</Text>
-              <Input placeholder="Enter first and last name" size="lg" />
-              <Text>Please enter your job title:</Text>
-              <Input placeholder="Enter your job title" size="lg" />
-            </Stack>
-          </ModalBody>
-          <ModalFooter>
-            <Button colorScheme="teal" size="lg" onClick={handleLogin}>
-              Login
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+      {/* Pagination Controls */}
+      <Stack direction="row" spacing={4} justify="center" mt={4} mb={2}>
+        {Array.from({ length: totalPages }, (_, i) => (
+          <Button
+            key={i + 1}
+            onClick={() => handlePageChange(i + 1)}
+            colorScheme={currentPage === i + 1 ? "teal" : "gray"}
+          >
+            {i + 1}
+          </Button>
+        ))}
+      </Stack>
       {/* Characters */}
-      {data?.characters?.results?.map((character: any) => (
+      {paginatedCharacters.map((character) => (
         <CharacterCard
-          key={character.name}
+          key={character.id}
           name={character.name}
           url={character.image}
           status={character.status}

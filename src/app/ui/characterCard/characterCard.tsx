@@ -16,7 +16,6 @@ type CharacterCardProps = {
   name: string;
   url: string;
   status: "Alive" | "Dead" | "unknown";
-  
 };
 
 export const CharacterCard: FC<CharacterCardProps> = ({
@@ -45,10 +44,6 @@ export const CharacterCard: FC<CharacterCardProps> = ({
           {/* TODO: use the button and router push instead of Link */}
           <Link passHref href={`/character/${name}`}>
             View {name}
-          </Link>
-
-          <Link className="card" key={name} href={`/photos/${name}`} passHref>
-            {name}
           </Link>
         </ButtonGroup>
       </CardFooter>
