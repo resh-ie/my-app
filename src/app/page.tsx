@@ -5,7 +5,7 @@ import { Stack, Text, Button } from "@chakra-ui/react";
 import { gql } from "@apollo/client";
 import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import { CharacterCard } from "./ui/characterCard/characterCard";
-
+import { useCounterStore } from "./providers/store/counterStoreProvider";
 const CHARACTERS_PER_PAGE = 10; // Number of characters per page
 
 const query = gql`
@@ -35,6 +35,10 @@ export default function Home() {
     router.push(`/?page=${page}`);
   };
 
+  const { count, incrementCount, decrementCount } = useCounterStore(
+    (state) => state
+  );
+
   const paginatedCharacters = characters.slice(
     (currentPage - 1) * CHARACTERS_PER_PAGE,
     currentPage * CHARACTERS_PER_PAGE
@@ -42,7 +46,17 @@ export default function Home() {
 
   return (
     <div>
-      <Suspense fallback={<div>Loading...</div>}></Suspense>
+      <div>
+        Count: {count}
+        <hr />
+        <button type="button" onClick={() => void incrementCount()}>
+          Increment Count
+        </button>
+        <button type="button" onClick={() => void decrementCount()}>
+          Decrement Count
+        </button>
+      </div>
+      {/* <Suspense fallback={<div>Loading...</div>}></Suspense> */}
       {/* Pagination Controls */}
       <Stack direction="row" spacing={4} justify="center" mt={4} mb={2}>
         {Array.from({ length: totalPages }, (_, i) => (

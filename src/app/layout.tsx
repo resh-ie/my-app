@@ -2,7 +2,7 @@
 import { Inter } from "next/font/google";
 import { Providers } from "./providers/providers";
 import { ApolloWrapper } from "./lib/apollo-wrapper";
-
+import { CounterStoreProvider } from "./providers/store/counterStoreProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 // export const metadata = {
@@ -21,11 +21,13 @@ export default function RootLayout(props: {
     <html lang="en">
       <body className={inter.className}>
         <ApolloWrapper>
-          <Providers>
-            {props.children}
-            {props.modal}
-            <div id="modal-root" />
-          </Providers>
+          <CounterStoreProvider>
+            <Providers>
+              {props.children}
+              {props.modal}
+              <div id="modal-root" />
+            </Providers>
+          </CounterStoreProvider>
         </ApolloWrapper>
       </body>
     </html>
