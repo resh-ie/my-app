@@ -7,10 +7,10 @@ import {
   Text,
   Divider,
   CardFooter,
-  ButtonGroup,
+  Button,
 } from "@chakra-ui/react";
 import { FC } from "react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 type CharacterCardProps = {
   name: string;
@@ -25,29 +25,28 @@ export const CharacterCard: FC<CharacterCardProps> = ({
   status,
   id,
 }) => {
+  const router = useRouter();
+
+  const handleViewCharacter = () => {
+    router.push(`/character/${id}`);
+  };
+
   return (
     <Card maxW="sm">
+      <Image src={url} alt={name} borderRadius="lg" />
       <CardBody>
-        <Image
-          src={url}
-          alt="Green double couch with wooden legs"
-          borderRadius="lg"
-        />
-        <Stack mt="6" spacing="3">
+        <Stack spacing="3">
           <Heading size="md">{name}</Heading>
-          <Text color="blue.600" fontSize="2xl">
+          <Text color="blue.600" fontSize="lg">
             {status}
           </Text>
         </Stack>
       </CardBody>
       <Divider />
-      <CardFooter>
-        <ButtonGroup spacing="2">
-          {/* TODO: use the button and router push instead of Link */}
-          <Link passHref href={`/character/${id}`}>
-            View {name}
-          </Link>
-        </ButtonGroup>
+      <CardFooter justifyContent="flex-end">
+        <Button onClick={handleViewCharacter} colorScheme="teal" size="sm">
+          View {name}
+        </Button>
       </CardFooter>
     </Card>
   );

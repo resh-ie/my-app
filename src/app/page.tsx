@@ -1,37 +1,29 @@
 "use client";
-import { Suspense, useState } from "react";
+
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
-  FormHelperText,
-  Container,
-} from "@chakra-ui/react";
 import { loginSchema } from "./schema/login";
 import {
   Stack,
   Text,
   Button,
-  Input,
   Modal,
   ModalBody,
-  ModalCloseButton,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   ModalOverlay,
+  ModalFooter,
 } from "@chakra-ui/react";
 import { z } from "zod";
 import { gql } from "@apollo/client";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import { CharacterCard } from "./ui/characterCard/characterCard";
-//TODO: fix the @ import
 import { useUserStore } from "./providers/store/user-store-provider";
 import { usePaginationStore } from "./providers/store/pagination-store-provider";
 import { LoginForm } from "./ui/loginForm/loginForm";
+import { MenuDrawer } from "./ui/drawer/drawer";
+
 const CHARACTERS_PER_PAGE = 10; // Number of characters per page
 
 const query = gql`
@@ -90,8 +82,8 @@ export default function Home() {
   };
 
   return (
-    <div>
-      {/* Login Form */}
+    <div style={{ padding: "20px" }}>
+      {/* Login Form Modal*/}
       <Modal isOpen={isModalOpen} onClose={() => {}}>
         <ModalOverlay />
         <ModalContent>
@@ -101,6 +93,9 @@ export default function Home() {
           </ModalBody>
         </ModalContent>
       </Modal>
+      {/* Menu Draw */}
+      <MenuDrawer />
+
       {/* Pagination Controls */}
       <Stack direction="row" spacing={4} justify="center" mt={4} mb={2}>
         {Array.from({ length: totalPages }, (_, i) => (
@@ -118,15 +113,17 @@ export default function Home() {
       </Text>
 
       {/* Characters */}
-      {paginatedCharacters.map((character) => (
-        <CharacterCard
-          key={character.id}
-          name={character.name}
-          url={character.image}
-          status={character.status}
-          id={character.id}
-        />
-      ))}
+      <Stack direction="column" spacing={4} alignItems="center">
+        {paginatedCharacters.map((character) => (
+          <CharacterCard
+            key={character.id}
+            name={character.name}
+            url={character.image}
+            status={character.status}
+            id={character.id}
+          />
+        ))}
+      </Stack>
     </div>
   );
 }
