@@ -1,5 +1,6 @@
 "use client";
-import { useState } from "react";
+import { Suspense, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Stack, Text, Button } from "@chakra-ui/react";
 import { gql } from "@apollo/client";
 import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
@@ -8,8 +9,8 @@ import { CharacterCard } from "./ui/characterCard/characterCard";
 const CHARACTERS_PER_PAGE = 10; // Number of characters per page
 
 const query = gql`
-  query {
-    characters {
+  query Characters($page: Int!) {
+    characters(page: $page) {
       results {
         id
         name
@@ -21,13 +22,17 @@ const query = gql`
 `;
 
 export default function Home() {
+  const router = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
-  const { data } = useSuspenseQuery(query);
+  const { data } = useSuspenseQuery(query, {
+    variables: { page: currentPage },
+  });
   const characters = data?.characters?.results || [];
   const totalPages = Math.ceil(characters.length / CHARACTERS_PER_PAGE);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
+    router.push(`/?page=${page}`, undefined, { shallow: true });
   };
 
   const paginatedCharacters = characters.slice(
@@ -38,6 +43,7 @@ export default function Home() {
   return (
     <div>
       {/* Pagination Controls */}
+      <Suspense fallback={<div>Loading...</div>}></Suspense>
       <Stack direction="row" spacing={4} justify="center" mt={4} mb={2}>
         {Array.from({ length: totalPages }, (_, i) => (
           <Button
@@ -56,6 +62,7 @@ export default function Home() {
           name={character.name}
           url={character.image}
           status={character.status}
+          id={character.id}
         />
       ))}
     </div>

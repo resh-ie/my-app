@@ -1,34 +1,35 @@
 "use client";
 import { gql } from "@apollo/client";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import { Box, Heading, Text, Image, Divider } from "@chakra-ui/react";
 
-export const GET_CHARACTER = gql`
-  query Character($name: String!) {
-    characters(filter: { name: $name }) {
-      results {
-        id
-        name
-        status
-        species
-        type
-        gender
-        image
-      }
+export const GET_CHARACTER_BY_ID = gql`
+  query ($id: ID!) {
+    character(id: $id) {
+      id
+      name
+      status
+      species
+      gender
+      image
+      created
     }
   }
 `;
 
 const CharacterPage = () => {
-  // const { name } = params;
-  const { data, error } = useSuspenseQuery(GET_CHARACTER, {
-    variables: { name },
+  const pathname = usePathname();
+  const id = pathname.split("/").pop();
+
+  const { data, error } = useSuspenseQuery(GET_CHARACTER_BY_ID, {
+    variables: { id },
   });
+  console.log("data", data);
 
   if (error) return <p>Error: {error.message}</p>;
 
-  const character = data?.characters?.results[0];
-  
+  const character = data?.character;
 
   return (
     <Box maxW="container.md" mt="8" mx="auto">
