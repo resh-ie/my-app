@@ -3,20 +3,7 @@ import { gql } from "@apollo/client";
 import { usePathname } from "next/navigation";
 import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import { Box, Heading, Text, Image, Divider, Stack } from "@chakra-ui/react";
-
-export const GET_CHARACTER_BY_ID = gql`
-  query ($id: ID!) {
-    character(id: $id) {
-      id
-      name
-      status
-      species
-      gender
-      image
-      created
-    }
-  }
-`;
+import { GET_CHARACTER_BY_ID } from "@/gql/queries/getCharacterById";
 
 const CharacterPage = () => {
   const pathname = usePathname();
