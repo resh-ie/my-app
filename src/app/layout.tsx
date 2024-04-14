@@ -26,9 +26,11 @@ export default function RootLayout(props: {
           <PaginationStoreProvider>
             <UserStoreProvider>
               <Providers>
-                {props.children}
-                {props.modal}
-                <div id="modal-root" />
+                <main>
+                  {props.children}
+                  {props.modal}
+                  <div id="modal-root" />
+                </main>
               </Providers>
             </UserStoreProvider>
           </PaginationStoreProvider>
