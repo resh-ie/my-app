@@ -12,7 +12,6 @@ import {
   ModalHeader,
   ModalOverlay,
 } from "@chakra-ui/react";
-import { gql } from "@apollo/client";
 import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import { CharacterCard } from "../ui/characterCard/characterCard";
 import { useUserStore } from "./providers/store/user-store-provider";

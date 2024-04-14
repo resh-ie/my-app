@@ -1,5 +1,4 @@
 "use client";
-import { gql } from "@apollo/client";
 import { usePathname } from "next/navigation";
 import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import { Box, Heading, Text, Image, Divider, Stack } from "@chakra-ui/react";

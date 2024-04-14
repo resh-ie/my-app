@@ -17,7 +17,7 @@ interface Character {
   id: string;
   name: string;
   image: string;
-  status: string;
+  status: "Alive" | "Dead" | "unknown";
 }
 
 export interface CharactersQueryResponse {
