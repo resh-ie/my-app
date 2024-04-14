@@ -15,27 +15,42 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useState } from "react";
-// import { LoginForm } from "./ui/loginForm/loginForm";
+
+export const dynamic = "force-dynamic";
+
+import { gql } from "@apollo/client";
+import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
+import { CharacterCard } from "./ui/characterCard/characterCard";
 
 type User = {
   name: string;
   jobTitle: string;
 };
 
-export default function Home() {
-  const [user, setUser] = useState<User>();
-  const router = useRouter();
+const query = gql`
+  query {
+    characters {
+      results {
+        id
+        name
+        image
+        status
+      }
+    }
+  }
+`;
 
-  const [isModalOpen, setIsModalOpen] = useState(true);
+export default function Home() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const closeModal = () => {
     setIsModalOpen(false);
   };
 
   const handleLogin = () => {
-    router.push("/information");
     closeModal();
   };
+  const { data } = useSuspenseQuery(query);
   return (
     <div>
       <Modal isOpen={isModalOpen} onClose={closeModal}>
@@ -58,6 +73,15 @@ export default function Home() {
           </ModalFooter>
         </ModalContent>
       </Modal>
+      {/* Characters */}
+      {data?.characters?.results?.map((character: any) => (
+        <CharacterCard
+          key={character.name}
+          name={character.name}
+          url={character.image}
+          status={character.status}
+        />
+      ))}
     </div>
   );
 }

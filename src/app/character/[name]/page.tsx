@@ -28,6 +28,7 @@ const CharacterPage = () => {
   if (error) return <p>Error: {error.message}</p>;
 
   const character = data?.characters?.results[0];
+  
 
   return (
     <Box maxW="container.md" mt="8" mx="auto">

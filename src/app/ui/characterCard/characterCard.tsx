@@ -8,7 +8,6 @@ import {
   Divider,
   CardFooter,
   ButtonGroup,
-  Button,
 } from "@chakra-ui/react";
 import { FC } from "react";
 import Link from "next/link";
@@ -17,14 +16,13 @@ type CharacterCardProps = {
   name: string;
   url: string;
   status: "Alive" | "Dead" | "unknown";
-  id: string;
+  
 };
 
 export const CharacterCard: FC<CharacterCardProps> = ({
   name,
   url,
   status,
-  id,
 }) => {
   return (
     <Card maxW="sm">
@@ -47,6 +45,10 @@ export const CharacterCard: FC<CharacterCardProps> = ({
           {/* TODO: use the button and router push instead of Link */}
           <Link passHref href={`/character/${name}`}>
             View {name}
+          </Link>
+
+          <Link className="card" key={name} href={`/photos/${name}`} passHref>
+            {name}
           </Link>
         </ButtonGroup>
       </CardFooter>
