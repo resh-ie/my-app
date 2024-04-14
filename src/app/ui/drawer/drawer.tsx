@@ -11,7 +11,6 @@ import {
   DrawerHeader,
   useDisclosure,
 } from "@chakra-ui/react";
-import React, { useRef } from "react";
 import { EditIcon } from "@chakra-ui/icons";
 import { LoginForm } from "../loginForm/loginForm";
 
@@ -23,11 +22,7 @@ export const MenuDrawer = ({}) => {
       <Button leftIcon={<EditIcon />} colorScheme="teal" onClick={onOpen}>
         Edit User Details
       </Button>
-      <Drawer
-        isOpen={isOpen}
-        placement="right"
-        onClose={onClose}
-      >
+      <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />

@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { loginSchema } from "./schema/login";
 import {
   Stack,
@@ -51,12 +51,16 @@ export default function Home() {
     setCurrentPage(page);
     router.push(`/?page=${page}`);
   };
-
   const { data } = useSuspenseQuery(query, {
     variables: { page: currentPage },
   });
 
   const characters = data?.characters?.results || [];
+
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const pageNumber = searchParams.get("page");
 
   const totalPages = Math.ceil(characters.length / CHARACTERS_PER_PAGE);
 
@@ -80,6 +84,19 @@ export default function Home() {
   const handleModalClose = () => {
     setIsModalOpen(false);
   };
+
+  // Only show the modal if the userName or jobTitle is missing
+  useEffect(() => {
+    if (showModalIfNameOrJobTitleIsMissing) {
+      setIsModalOpen(true);
+    }
+  }, [showModalIfNameOrJobTitleIsMissing]);
+
+  // Check the page query param and set the current page
+  useEffect(() => {
+    const page = Number(pageNumber) ?? 1;
+    setCurrentPage(page);
+  }, [pageNumber, setCurrentPage]);
 
   return (
     <div style={{ padding: "20px" }}>
