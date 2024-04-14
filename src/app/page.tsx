@@ -1,5 +1,5 @@
 "use client";
-
+import { useRouter } from "next/navigation";
 import {
   Modal,
   ModalOverlay,
@@ -24,6 +24,7 @@ type User = {
 
 export default function Home() {
   const [user, setUser] = useState<User>();
+  const router = useRouter();
 
   const [isModalOpen, setIsModalOpen] = useState(true);
 
@@ -32,8 +33,7 @@ export default function Home() {
   };
 
   const handleLogin = () => {
-    // Do something with the user object
-    console.log(user);
+    router.push("/information");
     closeModal();
   };
   return (

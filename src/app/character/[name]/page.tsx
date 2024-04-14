@@ -20,6 +20,7 @@ export const GET_CHARACTER = gql`
 `;
 
 const CharacterPage = () => {
+  // const { name } = params;
   const { data, error } = useSuspenseQuery(GET_CHARACTER, {
     variables: { name },
   });
