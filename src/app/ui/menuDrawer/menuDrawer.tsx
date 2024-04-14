@@ -11,7 +11,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { EditIcon } from "@chakra-ui/icons";
-import { LoginForm } from "../loginForm/loginForm";
+import { LoginForm } from "@/app/ui/loginForm/loginForm";
 
 export const MenuDrawer = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();

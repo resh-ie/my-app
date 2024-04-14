@@ -6,7 +6,7 @@ import {
   PaginationStore,
   createPaginationStore,
   initPaginationStore,
-} from "../../stores/pagination";
+} from "@/app/stores/pagination";
 
 export const PaginationStoreContext =
   createContext<StoreApi<PaginationStore> | null>(null);

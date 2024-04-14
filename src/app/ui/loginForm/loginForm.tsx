@@ -11,9 +11,9 @@ import {
 import { Stack, Text, Button, Input } from "@chakra-ui/react";
 import { z } from "zod";
 import { loginSchema } from "@/app/schema/login";
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 
-import { useUserStore } from "../../providers/store/user-store-provider";
+import { useUserStore } from "@/app/providers/store/user-store-provider";
 import { FC } from "react";
 
 type FormData = z.infer<typeof loginSchema>;
