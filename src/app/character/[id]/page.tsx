@@ -1,8 +1,8 @@
 "use client";
 import { gql } from "@apollo/client";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
-import { Box, Heading, Text, Image, Divider } from "@chakra-ui/react";
+import { Box, Heading, Text, Image, Divider, Stack } from "@chakra-ui/react";
 
 export const GET_CHARACTER_BY_ID = gql`
   query ($id: ID!) {
@@ -34,18 +34,18 @@ const CharacterPage = () => {
     <Box maxW="container.md" mt="8" mx="auto">
       {character && (
         <>
-          <Heading mb="4">{character.name}</Heading>
-          <Image src={character.image} alt={character.name} />
+          <Heading as="h1" mb="4" size="xl">
+            {character.name}
+          </Heading>
+          <Image src={character.image} alt={character.name} mb="4" />
           <Divider my="4" />
-          <Text>
-            Status: {character.status}
-            <br />
-            Species: {character.species}
-            <br />
-            Type: {character.type}
-            <br />
-            Gender: {character.gender}
-          </Text>
+          <Stack spacing={3}>
+            <Text>
+              Status: {character.status} <br />
+              Species: {character.species} <br />
+              Gender: {character.gender}
+            </Text>
+          </Stack>
         </>
       )}
     </Box>
