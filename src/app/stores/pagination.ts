@@ -1,5 +1,6 @@
 import { createStore } from "zustand/vanilla";
-import { persist, devtools } from "zustand/middleware";
+import { persist } from "zustand/middleware";
+
 export type PaginationState = {
   currentPage: number;
 };

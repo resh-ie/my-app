@@ -2,7 +2,9 @@
 import { Inter } from "next/font/google";
 import { Providers } from "./providers/chakra/providers";
 import { ApolloWrapper } from "./lib/apollo-wrapper";
-import { PaginationStoreProvider } from "./providers/store/paginationStoreProvider";
+// TODO: combine the user and provider store together
+import { PaginationStoreProvider } from "./providers/store/pagination-store-provider";
+import { UserStoreProvider } from "./providers/store/user-store-provider";
 const inter = Inter({ subsets: ["latin"] });
 
 // export const metadata = {
@@ -22,11 +24,13 @@ export default function RootLayout(props: {
       <body className={inter.className}>
         <ApolloWrapper>
           <PaginationStoreProvider>
-            <Providers>
-              {props.children}
-              {props.modal}
-              <div id="modal-root" />
-            </Providers>
+            <UserStoreProvider>
+              <Providers>
+                {props.children}
+                {props.modal}
+                <div id="modal-root" />
+              </Providers>
+            </UserStoreProvider>
           </PaginationStoreProvider>
         </ApolloWrapper>
       </body>

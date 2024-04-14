@@ -1,12 +1,37 @@
 "use client";
 import { Suspense, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Stack, Text, Button } from "@chakra-ui/react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+  FormHelperText,
+  Container,
+} from "@chakra-ui/react";
+import { loginSchema } from "./schema/login";
+import {
+  Stack,
+  Text,
+  Button,
+  Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+} from "@chakra-ui/react";
+import { z } from "zod";
 import { gql } from "@apollo/client";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { useSuspenseQuery } from "@apollo/experimental-nextjs-app-support/ssr";
 import { CharacterCard } from "./ui/characterCard/characterCard";
-import { useCounterStore } from "./providers/store/counterStoreProvider";
-import { usePaginationStore } from "./providers/store/paginationStoreProvider";
+//TODO: fix the @ import
+import { useUserStore } from "./providers/store/user-store-provider";
+import { usePaginationStore } from "./providers/store/pagination-store-provider";
+import { LoginForm } from "./ui/loginForm/loginForm";
 const CHARACTERS_PER_PAGE = 10; // Number of characters per page
 
 const query = gql`
@@ -21,6 +46,8 @@ const query = gql`
     }
   }
 `;
+
+type FormData = z.infer<typeof loginSchema>;
 
 export default function Home() {
   const router = useRouter();
@@ -46,8 +73,47 @@ export default function Home() {
     currentPage * CHARACTERS_PER_PAGE
   );
 
+  // User Store State
+  const { name, updateName, jobTitle, updateJobTitle } = useUserStore(
+    (state) => state
+  );
+
+  const showModalIfNameOrJobTitleIsMissing = !name || !jobTitle;
+
+  // Login Form State
+  const [isModalOpen, setIsModalOpen] = useState(
+    showModalIfNameOrJobTitleIsMissing
+  );
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+
+
   return (
     <div>
+      {/* Login Form */}
+      <Modal isOpen={isModalOpen} onClose={() => {}}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Login</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <LoginForm />
+          </ModalBody>
+          {/* <ModalFooter>
+            <Button
+              colorScheme="teal"
+              size="lg"
+              type="submit"
+              isLoading={isSubmitting}
+              // onClick={handleSubmit(onSubmit)}
+            >
+              Login
+            </Button>
+          </ModalFooter> */}
+        </ModalContent>
+      </Modal>
       {/* Pagination Controls */}
       <Stack direction="row" spacing={4} justify="center" mt={4} mb={2}>
         {Array.from({ length: totalPages }, (_, i) => (
@@ -63,6 +129,7 @@ export default function Home() {
       <Text textAlign="center" mb={4}>
         Page {currentPage} of {totalPages}
       </Text>
+
       {/* Characters */}
       {paginatedCharacters.map((character) => (
         <CharacterCard
