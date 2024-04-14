@@ -1,6 +1,5 @@
 import z from "zod";
 
-//TODO: make this captailise and add more validation
 export const loginSchema = z.object({
   name: z.string().min(1, { message: "Name is required." }),
   jobTitle: z

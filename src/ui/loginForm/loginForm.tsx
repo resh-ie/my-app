@@ -10,7 +10,7 @@ import {
 
 import { Stack, Text, Button, Input } from "@chakra-ui/react";
 import { z } from "zod";
-import { loginSchema } from "@/app/schema/login";
+import { loginSchema } from "@/schema/login";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 import { useUserStore } from "@/app/providers/store/user-store-provider";
@@ -24,7 +24,7 @@ type LoginFormProps = {
 
 export const LoginForm: FC<LoginFormProps> = ({ handleOnClose }) => {
   // User Store State
-  const { name, updateName, jobTitle, updateJobTitle } = useUserStore(
+  const { name, setName, jobTitle, setJobTitle } = useUserStore(
     (state) => state
   );
 
@@ -44,8 +44,8 @@ export const LoginForm: FC<LoginFormProps> = ({ handleOnClose }) => {
   });
 
   const onSubmit: SubmitHandler<FormData> = (values) => {
-    updateName(values.name);
-    updateJobTitle(values.jobTitle);
+    setName(values.name);
+    setJobTitle(values.jobTitle);
     handleOnClose();
   };
 

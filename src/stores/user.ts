@@ -8,8 +8,8 @@ export type UserState = {
 };
 
 export type UserActions = {
-  updateName: (name: string) => void;
-  updateJobTitle: (jobTitle: string) => void;
+  setName: (name: string) => void;
+  setJobTitle: (jobTitle: string) => void;
 };
 
 export type UserStore = UserState & UserActions;
@@ -26,8 +26,8 @@ export const createUserStore = (initState: UserState = initUserStore()) => {
     persist(
       (set) => ({
         ...initState,
-        updateName: (name: string) => set({ name }),
-        updateJobTitle: (jobTitle: string) => set({ jobTitle }),
+        setName: (name: string) => set({ name }),
+        setJobTitle: (jobTitle: string) => set({ jobTitle }),
       }),
       { name: "user-store" }
     )
