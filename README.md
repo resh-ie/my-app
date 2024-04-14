@@ -21,18 +21,23 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
 ## Current Tech Stack
+
 - Storybook with interaction testing
 - Graphql using Rick and Morty
 - Framer for transitions
 - Next.js App router architecture
-- Added React hook Form and Zod for validation and form control 
-
-
+- Added React hook Form and Zod for validation and form control
 
 ## Deploy on Vercel
 
 Check out the [Next.js website deployment](https://my-app-smoky-five.vercel.app/) for more details.
 
-
 ## Improvements I want to make
-Creating a 
+
+Create better Error handling on routes
+Create better transitions
+Add dark/light theming options
+Generate schema types for graphql + create a type folder
+Create one Zustand Provider for multiple stores
+Refactor the UI components to be more reusable
+add i18 to provide different languages and region (Would be cool to switch to different languages within the Rick and Morty world)
