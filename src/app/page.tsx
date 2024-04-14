@@ -1,5 +1,5 @@
 "use client";
-
+import { Suspense } from "react";
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
@@ -80,47 +80,49 @@ export default function Home() {
 
   return (
     <div style={{ padding: "20px" }}>
-      {/* Login Form Modal*/}
-      <Modal isOpen={isModalOpen} onClose={() => {}}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Login</ModalHeader>
-          <ModalBody>
-            <LoginForm handleOnClose={handleModalClose} />
-          </ModalBody>
-        </ModalContent>
-      </Modal>
-      {/* Menu Draw */}
-      <MenuDrawer />
+      <Suspense>
+        {/* Login Form Modal*/}
+        <Modal isOpen={isModalOpen} onClose={() => {}}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Login</ModalHeader>
+            <ModalBody>
+              <LoginForm handleOnClose={handleModalClose} />
+            </ModalBody>
+          </ModalContent>
+        </Modal>
+        {/* Menu Draw */}
+        <MenuDrawer />
 
-      {/* Pagination Controls */}
-      <Stack direction="row" spacing={4} justify="center" mt={4} mb={2}>
-        {Array.from({ length: totalPages }, (_, i) => (
-          <Button
-            key={i + 1}
-            onClick={() => handlePageChange(i + 1)}
-            colorScheme={currentPage === i + 1 ? "teal" : "gray"}
-          >
-            {i + 1}
-          </Button>
-        ))}
-      </Stack>
-      <Text textAlign="center" mb={4}>
-        Page {currentPage} of {totalPages}
-      </Text>
+        {/* Pagination Controls */}
+        <Stack direction="row" spacing={4} justify="center" mt={4} mb={2}>
+          {Array.from({ length: totalPages }, (_, i) => (
+            <Button
+              key={i + 1}
+              onClick={() => handlePageChange(i + 1)}
+              colorScheme={currentPage === i + 1 ? "teal" : "gray"}
+            >
+              {i + 1}
+            </Button>
+          ))}
+        </Stack>
+        <Text textAlign="center" mb={4}>
+          Page {currentPage} of {totalPages}
+        </Text>
 
-      {/* Characters */}
-      <Stack direction="column" spacing={4} alignItems="center">
-        {paginatedCharacters.map((character) => (
-          <CharacterCard
-            key={character.id}
-            name={character.name}
-            url={character.image}
-            status={character.status}
-            id={character.id}
-          />
-        ))}
-      </Stack>
+        {/* Characters */}
+        <Stack direction="column" spacing={4} alignItems="center">
+          {paginatedCharacters.map((character) => (
+            <CharacterCard
+              key={character.id}
+              name={character.name}
+              url={character.image}
+              status={character.status}
+              id={character.id}
+            />
+          ))}
+        </Stack>
+      </Suspense>
     </div>
   );
 }
